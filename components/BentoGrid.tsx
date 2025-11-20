@@ -99,12 +99,13 @@ const BentoGrid: React.FC = () => {
 
   // --- Styles ---
   
-  // Glassmorphism base class
+  // Glassmorphism base class - Dark mode forced to slate background in global CSS, but we add some specifics here
   const gridItemClasses = "glass-panel group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-xl cursor-pointer";
   const animClasses = isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10';
   
-  const textMain = "text-zinc-900 dark:text-white";
-  const textSub = "text-zinc-500 dark:text-zinc-300";
+  // Ensuring text isn't washed out in light mode (zinc-800) and visible in dark mode (zinc-100)
+  const textMain = "text-zinc-800 dark:text-zinc-100";
+  const textSub = "text-zinc-500 dark:text-zinc-400";
 
   const moodEmojis = ['😖', '😐', '🙂', '😁', '🤩'];
   const moodColors = ['from-red-500/20', 'from-gray-500/20', 'from-blue-500/20', 'from-yellow-500/20', 'from-pink-500/20'];
@@ -127,7 +128,7 @@ const BentoGrid: React.FC = () => {
           
           {/* 1. Smart Finance (Enhanced Interaction) */}
           <div onClick={handleFinanceInteract} className={`md:col-span-2 lg:col-span-2 p-6 md:p-10 ${gridItemClasses} ${animClasses}`}>
-             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 transition-colors duration-500"></div>
+             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 transition-colors duration-500"></div>
              
              <div className="flex flex-col md:flex-row justify-between items-start md:items-end h-full relative z-10 gap-8">
                 <div className="max-w-md z-20">
@@ -141,12 +142,12 @@ const BentoGrid: React.FC = () => {
                 {/* Interactive Chart + Transaction List */}
                 <div className="w-full md:w-1/2 h-48 md:h-64 relative select-none">
                    {/* Floating Transaction List */}
-                   <div className="absolute top-0 right-4 w-52 bg-white/80 dark:bg-black/40 backdrop-blur-md rounded-2xl shadow-2xl p-3 text-zinc-800 dark:text-white transform rotate-3 group-hover:rotate-0 transition-all duration-500 z-20 border border-white/20 dark:border-white/10">
+                   <div className="absolute top-0 right-4 w-52 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-2xl p-3 text-zinc-800 dark:text-white transform rotate-3 group-hover:rotate-0 transition-all duration-500 z-20 border border-white/20 dark:border-white/10">
                       <div className="text-xs font-bold text-zinc-400 uppercase mb-2">Recent</div>
                       <div className="space-y-2">
                           {transactions.map((tx) => (
                               <div key={tx.id} className="flex justify-between text-sm animate-fade-in">
-                                  <span>{tx.name}</span>
+                                  <span className="dark:text-zinc-200">{tx.name}</span>
                                   <span className="font-mono text-red-500">-${tx.amount.toFixed(2)}</span>
                               </div>
                           ))}
@@ -159,7 +160,7 @@ const BentoGrid: React.FC = () => {
                           <div 
                             key={i} 
                             style={{ height: `${h}%`, transitionDelay: `${i * 50}ms` }} 
-                            className={`flex-1 rounded-t-lg transition-all duration-700 ease-out transform scale-y-0 animate-grow-up ${i === 7 ? 'bg-blue-500' : 'bg-blue-200 dark:bg-blue-500/30'} group-hover:bg-blue-500`}
+                            className={`flex-1 rounded-t-lg transition-all duration-700 ease-out transform scale-y-0 animate-grow-up ${i === 7 ? 'bg-blue-500' : 'bg-blue-200 dark:bg-blue-600/50'} group-hover:bg-blue-500`}
                           ></div>
                       ))}
                    </div>
@@ -168,22 +169,23 @@ const BentoGrid: React.FC = () => {
           </div>
 
           {/* 2. Habit Loop */}
-          <div onClick={incrementHabit} className={`md:row-span-2 lg:row-span-2 !bg-black/90 dark:!bg-black/50 dark:backdrop-blur-xl text-white p-8 shadow-2xl border border-zinc-800 dark:border-white/10 delay-100 ${gridItemClasses} ${animClasses}`}>
-             <div className="absolute bottom-0 left-0 w-full h-2/3 bg-gradient-to-t from-orange-900/40 to-transparent -z-10 pointer-events-none"></div>
+          {/* FIX: Removed hardcoded !bg-black. Now uses glass-panel-darker logic via generic glass-panel class but with internal overrides only where needed */}
+          <div onClick={incrementHabit} className={`md:row-span-2 lg:row-span-2 p-8 shadow-2xl delay-100 ${gridItemClasses} ${animClasses} bg-white/80 dark:bg-slate-900/80`}>
+             <div className="absolute bottom-0 left-0 w-full h-2/3 bg-gradient-to-t from-orange-500/10 to-transparent -z-10 pointer-events-none"></div>
              
              <div className="flex flex-col h-full justify-between">
                 <div>
-                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-orange-500/20 border border-orange-500/30 text-orange-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-orange-500/20 border border-orange-500/30 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                         <SolarGraphUp className="w-6 h-6 md:w-7 md:h-7" />
                     </div>
-                    <h3 className="text-2xl font-bold mb-3">Atomic Habits</h3>
-                    <p className="text-zinc-400 leading-relaxed mb-8">Tap the ring to log progress.</p>
+                    <h3 className={`text-2xl font-bold ${textMain} mb-3`}>Atomic Habits</h3>
+                    <p className={`${textSub} leading-relaxed mb-8`}>Tap the ring to log progress.</p>
                 </div>
                 
                 <div className="flex flex-col items-center justify-center py-8 relative">
                     <div className="relative w-48 h-48 group-hover:scale-105 transition-transform duration-500 active:scale-95 cursor-pointer">
                         <svg className="w-full h-full rotate-[-90deg]" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="40" stroke="currentColor" className="text-zinc-800 dark:text-white/10" strokeWidth="8" fill="none" />
+                            <circle cx="50" cy="50" r="40" stroke="currentColor" className="text-zinc-200 dark:text-white/10" strokeWidth="8" fill="none" />
                             <circle 
                                 cx="50" cy="50" r="40" 
                                 stroke="#F97316" strokeWidth="8" fill="none" 
@@ -194,12 +196,12 @@ const BentoGrid: React.FC = () => {
                             />
                         </svg>
                         <div className="absolute inset-0 flex flex-col items-center justify-center select-none">
-                            <span className="text-4xl font-bold">{habitProgress}%</span>
-                            <span className="text-xs text-zinc-500 uppercase tracking-wide mt-1">Completed</span>
+                            <span className={`text-4xl font-bold ${textMain}`}>{habitProgress}%</span>
+                            <span className="text-xs text-zinc-400 uppercase tracking-wide mt-1">Completed</span>
                         </div>
                         
                         {habitProgress === 100 && (
-                            <div className="absolute top-0 right-0 bg-green-500 text-black px-3 py-1 rounded-full text-xs font-bold animate-bounce shadow-lg">
+                            <div className="absolute top-0 right-0 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-bounce shadow-lg">
                                 Done! 🎉
                             </div>
                         )}
@@ -239,9 +241,9 @@ const BentoGrid: React.FC = () => {
                          {scheduleTasks.map((item, idx) => (
                              <div key={idx} className="flex items-center gap-3 relative z-10 animate-fade-in-up" style={{animationDelay: `${idx * 100}ms`}}>
                                  <div className="w-6 h-6 rounded-full bg-purple-50 dark:bg-purple-900 border-2 border-white dark:border-zinc-800 flex items-center justify-center">
-                                     <div className={`w-2 h-2 ${item.color.replace('bg-', 'bg-')} rounded-full`}></div>
+                                     <div className={`w-2 h-2 ${item.color} rounded-full`}></div>
                                  </div>
-                                 <div className="flex-1 bg-white/50 dark:bg-white/5 p-2.5 rounded-xl border border-white/50 dark:border-white/5">
+                                 <div className="flex-1 bg-white/60 dark:bg-white/5 p-2.5 rounded-xl border border-white/60 dark:border-white/5 backdrop-blur-sm">
                                      <div className="text-sm font-semibold text-zinc-800 dark:text-white">{item.task}</div>
                                      <div className="text-xs text-zinc-500">{item.time}</div>
                                  </div>
@@ -253,32 +255,33 @@ const BentoGrid: React.FC = () => {
           </div>
 
           {/* 4. Deep Focus */}
-          <div onClick={toggleTimer} className={`!bg-zinc-900 dark:!bg-black/40 dark:backdrop-blur-xl text-white p-8 shadow-lg border border-zinc-800 dark:border-white/10 delay-200 ${gridItemClasses} ${animClasses}`}>
-             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-500/10 to-transparent pointer-events-none"></div>
+          {/* FIX: Removed hardcoded dark mode classes, using variables */}
+          <div onClick={toggleTimer} className={`p-8 shadow-lg delay-200 ${gridItemClasses} ${animClasses}`}>
+             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-500/5 to-transparent pointer-events-none"></div>
              
              <div className="flex justify-between items-start mb-6">
-                 <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                 <div className="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                      <SolarBrain className="w-7 h-7" />
                  </div>
-                 <div className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${timerActive ? 'bg-red-500/20 text-red-400 animate-pulse' : 'bg-indigo-500/20 text-indigo-300'}`}>
+                 <div className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${timerActive ? 'bg-red-100 text-red-500 dark:bg-red-500/20 dark:text-red-400 animate-pulse' : 'bg-indigo-100 text-indigo-500 dark:bg-indigo-500/20 dark:text-indigo-300'}`}>
                      {timerActive ? 'Running' : 'Tap to Start'}
                  </div>
              </div>
              
-             <h3 className="text-2xl font-bold mb-2">Deep Work</h3>
-             <p className="text-zinc-400 text-sm mb-6">Eliminate distractions.</p>
+             <h3 className={`text-2xl font-bold ${textMain} mb-2`}>Deep Work</h3>
+             <p className={`${textSub} text-sm mb-6`}>Eliminate distractions.</p>
              
-             <div className={`bg-black/40 dark:bg-black/60 rounded-2xl p-4 border border-white/5 text-center relative overflow-hidden transition-all duration-300 ${timerActive ? 'border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.2)]' : ''}`}>
-                 <div className="text-3xl font-mono font-bold tracking-wider text-white">{formatTime(timeLeft)}</div>
+             <div className={`bg-zinc-100 dark:bg-black/40 rounded-2xl p-4 border border-zinc-200 dark:border-white/10 text-center relative overflow-hidden transition-all duration-300 ${timerActive ? 'border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.2)]' : ''}`}>
+                 <div className={`text-3xl font-mono font-bold tracking-wider ${textMain}`}>{formatTime(timeLeft)}</div>
                  <div className="text-xs text-zinc-500 mt-1">{timerActive ? 'Focusing...' : '25 min session'}</div>
                  {timerActive && <div className="absolute bottom-0 left-0 h-1 bg-indigo-500 w-full animate-marquee"></div>}
              </div>
           </div>
 
-          {/* 5. Mood Journal (Interactive Background) */}
+          {/* 5. Mood Journal */}
           <div className={`md:col-span-2 lg:col-span-2 p-8 delay-300 ${gridItemClasses} ${animClasses}`}>
              {/* Dynamic Background based on Mood */}
-             <div className={`absolute inset-0 bg-gradient-to-br ${selectedMood !== null ? moodColors[selectedMood] : 'from-transparent'} to-transparent opacity-30 dark:opacity-20 transition-all duration-700 -z-10`}></div>
+             <div className={`absolute inset-0 bg-gradient-to-br ${selectedMood !== null ? moodColors[selectedMood] : 'from-transparent'} to-transparent opacity-20 dark:opacity-10 transition-all duration-700 -z-10`}></div>
              
              <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="flex-1">
@@ -301,8 +304,8 @@ const BentoGrid: React.FC = () => {
                                 border flex items-center justify-center text-2xl md:text-3xl 
                                 cursor-pointer transition-all duration-300 select-none outline-none
                                 ${selectedMood === idx 
-                                    ? 'bg-white dark:bg-white/10 border-blue-400 dark:border-blue-500 scale-125 shadow-lg ring-2 ring-blue-500/20' 
-                                    : 'bg-white/50 dark:bg-white/5 border-transparent hover:scale-110 hover:-translate-y-2 hover:bg-white dark:hover:bg-white/10 opacity-70 hover:opacity-100'
+                                    ? 'bg-white/80 dark:bg-white/10 border-blue-400 dark:border-blue-500 scale-125 shadow-lg ring-2 ring-blue-500/20' 
+                                    : 'bg-white/40 dark:bg-white/5 border-transparent hover:scale-110 hover:-translate-y-2 hover:bg-white/60 dark:hover:bg-white/10 opacity-70 hover:opacity-100'
                                 }
                             `}
                         >

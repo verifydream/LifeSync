@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-black/50 backdrop-blur-xl border-b border-zinc-200/50 dark:border-white/10 py-4' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/70 dark:bg-[#020617]/70 backdrop-blur-xl border-b border-zinc-200/50 dark:border-white/5 py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <div 
             className="flex items-center gap-2 cursor-pointer outline-none rounded-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black"
@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
             tabIndex={0}
             aria-label="LifeSync Home"
         >
-          <div className="w-8 h-8 bg-black dark:bg-white text-white dark:text-black rounded-lg flex items-center justify-center shadow-lg transition-colors">
+          <div className="w-8 h-8 bg-zinc-900 dark:bg-white text-white dark:text-black rounded-lg flex items-center justify-center shadow-lg transition-colors">
             <SolarBolt className="w-5 h-5" />
           </div>
           <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white transition-colors">LifeSync</span>
@@ -86,9 +86,9 @@ const Navbar: React.FC = () => {
             <button 
                 onClick={toggleDarkMode}
                 className="p-2 rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                aria-label={isDark ? "Current mode: Dark. Switch to Light Mode" : "Current mode: Light. Switch to Dark Mode"}
             >
-                {isDark ? <SolarSun className="w-5 h-5" /> : <SolarMoon className="w-5 h-5" />}
+                {isDark ? <SolarMoon className="w-5 h-5" /> : <SolarSun className="w-5 h-5" />}
             </button>
             <a href="#" className="hidden md:block text-sm font-medium text-zinc-900 dark:text-white transition-colors">Log in</a>
             <button className="bg-zinc-900 dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black">

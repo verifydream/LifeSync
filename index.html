@@ -95,11 +95,17 @@
       }
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #f8fafc;
+        /* FIX: Base background is no longer pure white to ensure contrast with white glass cards */
+        background-color: #f8fafc; 
         color: #1e293b;
         overflow-x: hidden;
         transition: background-color 0.5s ease, color 0.5s ease;
         position: relative;
+      }
+      
+      html.dark body {
+        background-color: #020617; /* Deep slate/black */
+        color: #f8fafc;
       }
       
       /* --- FROSTED GLASS THEME SYSTEM --- */
@@ -115,67 +121,69 @@
         pointer-events: none;
       }
 
-      /* 1. Base */
+      /* 1. Base Layer */
       .bg-base {
         position: absolute;
         inset: 0;
-        background: #ffffff; /* Fallback */
+        background: #f1f5f9; /* Slate-100 (Off-white) for Light Mode Contrast */
         transition: background 0.5s ease;
       }
       html.dark .bg-base {
-        background: #020617; /* Deepest Slate/Black for better contrast */
+        background: #020617; /* Deepest Slate for Dark Mode */
       }
 
-      /* 2. Ethereal Orbs (Diffused) */
+      /* 2. Ethereal Orbs */
       .mesh-blob {
         position: absolute;
         border-radius: 50%;
-        filter: blur(80px); /* Reduced blur slightly for clearer colors in dark mode */
-        opacity: 0.6;
+        filter: blur(100px); /* Increased blur to make it softer for text reading */
+        opacity: 0.4; /* Reduced opacity for Light Mode so it's not too bright */
         transition: opacity 0.5s ease, background-color 0.5s ease;
       }
       html.dark .mesh-blob {
-        opacity: 0.4; /* Slightly more visible in dark mode */
-        filter: blur(90px);
+        opacity: 0.3;
+        filter: blur(120px);
       }
 
-      /* Colors - Light Mode (Pastels) */
-      .blob-1 { background-color: #bae6fd; top: -20%; left: -10%; width: 60vw; height: 60vw; } /* Sky Blue */
-      .blob-2 { background-color: #ddd6fe; top: 40%; right: -20%; width: 50vw; height: 50vw; } /* Violet */
-      .blob-3 { background-color: #fbcfe8; bottom: -20%; left: 10%; width: 55vw; height: 55vw; } /* Pink */
+      /* Colors - Light Mode (Softer Pastels) */
+      .blob-1 { background-color: #bae6fd; top: -20%; left: -10%; width: 70vw; height: 70vw; } 
+      .blob-2 { background-color: #ddd6fe; top: 40%; right: -20%; width: 60vw; height: 60vw; } 
+      .blob-3 { background-color: #fce7f3; bottom: -20%; left: 10%; width: 60vw; height: 60vw; } 
 
-      /* Colors - Dark Mode (Vibrant Neon for Contrast) */
-      html.dark .blob-1 { background-color: #0ea5e9; top: -10%; left: -10%; } /* Sky 500 */
-      html.dark .blob-2 { background-color: #7c3aed; top: 30%; right: -10%;} /* Violet 600 */
-      html.dark .blob-3 { background-color: #db2777; bottom: -10%; left: 5%;} /* Pink 600 */
+      /* Colors - Dark Mode (Deep Neon) */
+      html.dark .blob-1 { background-color: #0c4a6e; top: -10%; left: -10%; } /* Darker Sky */
+      html.dark .blob-2 { background-color: #4c1d95; top: 30%; right: -10%;} /* Darker Violet */
+      html.dark .blob-3 { background-color: #831843; bottom: -10%; left: 5%;} /* Darker Pink */
 
-      /* 3. Noise Texture (The "Glass" Grain) */
+      /* 3. Noise Texture */
       .bg-noise {
         position: absolute;
         inset: 0;
-        opacity: 0.03;
+        opacity: 0.04;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         pointer-events: none;
       }
       html.dark .bg-noise {
-        opacity: 0.04;
+        opacity: 0.05; /* Slightly more grain in dark mode for texture */
       }
 
-      /* Glass Utility Class */
+      /* --- CORE GLASS UTILITY --- */
+      
+      /* Light Mode Glass: Bright, slightly opaque to stand out against off-white bg */
       .glass-panel {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
       }
       
-      /* Dark Mode Glass: Needs to be lighter than the black background, semi-transparent */
+      /* FIX: Dark Mode Glass: Must be DARK based, not white based */
       html.dark .glass-panel {
-        background: rgba(20, 20, 30, 0.4); /* Semi-transparent dark grey */
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle white border for edge definition */
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        background: rgba(15, 23, 42, 0.6) !important; /* Dark Slate base, not white */
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        color: #ffffff;
       }
 
       /* Custom Scrollbar */
@@ -229,7 +237,7 @@
   <body>
     <div id="root"></div>
     
-    <!-- Global Frosted Glass Background -->
+    <!-- Global Background System -->
     <div class="bg-wrapper">
       <div class="bg-base"></div>
       <div class="mesh-blob blob-1 animate-blob"></div>

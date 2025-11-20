@@ -31,7 +31,7 @@ const Hero: React.FC = () => {
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">Effortlessly.</span>
         </h1>
         
-        <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed transition-colors px-4 animate-fade-in-up [animation-delay:200ms]">
+        <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto mb-10 leading-relaxed transition-colors px-4 animate-fade-in-up [animation-delay:200ms]">
           The all-in-one workspace that brings your finances, habits, and plans into perfect harmony.
         </p>
 
